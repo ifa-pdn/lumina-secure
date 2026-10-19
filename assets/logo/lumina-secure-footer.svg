@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="40" viewBox="0 0 200 40" fill="none">
+  <title>LUMINA SECURE RECRUIT</title>
+  <g transform="scale(1.11111)">
+    <path d="M16 2 29 7v11c0 7-5.5 12.5-13 16C8.5 30.5 3 25 3 18V7L16 2Z" stroke="#64E8FF" stroke-width="2"/>
+    <path d="M12 10v13h10" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="square"/>
+    <path d="M22 9v6m-3-3h6" stroke="#64E8FF" stroke-width="1.5"/>
+    <text x="41" y="17" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="0.9">LUMINA SECURE</text>
+    <text x="42" y="29" fill="#64E8FF" font-family="Arial, Helvetica, sans-serif" font-size="8" font-weight="700" letter-spacing="3.2">RECRUIT</text>
+  </g>
+</svg>

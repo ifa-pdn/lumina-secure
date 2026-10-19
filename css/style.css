@@ -1,0 +1,3039 @@
+/* Mobile first: aturan dasar untuk mobile kecil (hingga 360px).
+   Perubahan untuk layar lebih besar dikelompokkan di akhir file. */
+:root {
+  color-scheme: light;
+
+  --color-text-primary: #001c3e;
+  --color-text-secondary: #ffffff;
+  --color-accent: #065fcd;
+  --color-navy: #043967;
+  --color-surface-light: #ebf2fa;
+  --color-gradient-start: #e3f8ff;
+  --color-gradient-middle: #f6fdff;
+  --color-gradient-end: #dbf5fd;
+  --background-page: linear-gradient(
+    107.037deg,
+    var(--color-gradient-start) 0%,
+    var(--color-gradient-middle) 43%,
+    var(--color-gradient-end) 100%
+  );
+  --background-section-blue: var(--color-accent);
+  --background-footer: var(--color-navy);
+  --overlay-join-team: rgba(4, 57, 103, 0.51);
+  --color-button-primary: var(--color-accent);
+  --color-button-primary-text: var(--color-text-secondary);
+  --color-button-secondary: var(--color-navy);
+  --color-button-secondary-text: var(--color-text-secondary);
+  --color-button-light: var(--color-surface-light);
+  --color-button-light-text: var(--color-navy);
+
+  --font-family-base: "Noto Sans JP", sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-size-text: 1rem;
+  --line-height-text: 2.5rem;
+  --line-height-section-text: 2;
+  --line-height-button-section: 1.5rem;
+  --letter-spacing-eyebrow: 0.04em;
+  --font-size-hero-title: 2.1875rem;
+  --line-height-hero-title: 2.9375rem;
+  --font-size-hero-eyebrow: 0.875rem;
+  --line-height-hero-eyebrow: 0.875rem;
+  --font-size-section-title: 2rem;
+  --line-height-section-title: 2.75rem;
+  --font-size-section-eyebrow: 0.75rem;
+  --line-height-section-eyebrow: 0.75rem;
+
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 3rem;
+  --space-6: 5.5rem;
+  --section-padding-mobile: 6.25rem;
+  --section-eyebrow-gap: 1.625rem;
+  --section-text-gap: 1.25rem;
+  --section-button-gap: 1.75rem;
+  --section-content-gap: 3.75rem;
+  --container-max-width: 1312px;
+  --container-padding-inline: 0px;
+  /* Gutter mobile 20px; tablet/desktop 24px mulai 769px.
+     Padding internal container tetap 0px sesuai design-spec.md. */
+  --page-gutter: 1.25rem;
+  --section-gap: 0px;
+  --radius-button: 0px;
+  --radius-image: 0px;
+  --radius-card: 6px;
+  --button-padding-header: 1rem 1.5rem;
+  --button-padding-hero: 1.5rem 3.375rem;
+  --button-padding-section: 1rem 3.75rem;
+  --focus-width: 3px;
+  --focus-offset: 4px;
+  --button-hover-gradient-primary: linear-gradient(90deg, #0061ff, #60efff);
+  --button-hover-gradient: var(--button-hover-gradient-primary);
+  --button-hover-duration: 300ms;
+  --arrow-nudge-duration: 280ms;
+  --arrow-cycle-duration: 550ms;
+  --arrow-return-duration: 260ms;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: var(--font-weight-bold);
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+img {
+  border-radius: var(--radius-image);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-underline-offset: 0.2em;
+}
+
+:focus-visible {
+  outline: var(--focus-width) solid currentColor;
+  outline-offset: var(--focus-offset);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.page {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  color: var(--color-text-primary);
+  background: var(--color-gradient-start);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-text);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-text);
+  overflow-wrap: break-word;
+}
+
+/* Satu bidang gradasi untuk semua section transparan, tanpa restart per section.
+   Layer fixed juga bekerja tanpa background-attachment: fixed pada mobile. */
+.page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--background-page);
+  background-size: 100vw 100vh;
+}
+
+.page__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-gap);
+  min-width: 0;
+}
+
+.container {
+  width: calc(100% - var(--page-gutter) - var(--page-gutter));
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding-inline: var(--container-padding-inline);
+}
+
+.heading {
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-section-title);
+}
+
+/* Teks konten section selain Hero: mengikuti ukuran font, tanpa satuan. */
+.message__description,
+.why-us__description,
+.mission__description {
+  line-height: var(--line-height-section-text);
+}
+
+/* Gunakan bersama class dasar: class="heading heading--hero". */
+.heading--hero {
+  font-size: var(--font-size-hero-title);
+  line-height: var(--line-height-hero-title);
+}
+
+.eyebrow {
+  color: var(--color-accent);
+  letter-spacing: var(--letter-spacing-eyebrow);
+  font-size: var(--font-size-section-eyebrow);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-section-eyebrow);
+}
+
+.eyebrow--hero {
+  font-size: var(--font-size-hero-eyebrow);
+  line-height: var(--line-height-hero-eyebrow);
+}
+
+.eyebrow--light {
+  color: var(--color-text-secondary);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  max-width: 100%;
+  padding: var(--button-padding-section);
+  border: 0;
+  border-radius: var(--radius-button);
+  color: var(--color-button-primary-text);
+  background-color: var(--color-button-primary);
+  font: inherit;
+  font-weight: var(--font-weight-regular);
+  text-align: center;
+  text-decoration: none;
+}
+
+/* Semua modifier digunakan bersama .button. */
+.button--secondary {
+  color: var(--color-button-secondary-text);
+  background-color: var(--color-button-secondary);
+  --button-hover-gradient: linear-gradient(90deg, #0757b8, #36d8f0);
+}
+
+.button--light {
+  color: var(--color-button-light-text);
+  background-color: var(--color-button-light);
+  --button-hover-gradient: linear-gradient(
+    135deg,
+    #ffffff,
+    #dceafa 55%,
+    #bed7f4
+  );
+}
+
+.button--header {
+  padding: var(--button-padding-header);
+}
+
+.button--hero {
+  padding: var(--button-padding-hero);
+}
+
+/* Gradasi hanya berubah opacity; lapisan partikel terpisah dari area clipping. */
+.button-effect {
+  position: relative;
+  isolation: isolate;
+}
+
+.button-effect::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: var(--button-hover-gradient);
+  opacity: 0;
+  transition: opacity var(--button-hover-duration) ease;
+}
+
+.button-effect--active::before {
+  opacity: 1;
+}
+
+.button-effects {
+  position: fixed;
+  inset: 0;
+  z-index: 21;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.button-particles {
+  position: absolute;
+  top: var(--emitter-y, 0px);
+  left: var(--emitter-x, 0px);
+  width: var(--emitter-width, 0px);
+  height: var(--emitter-height, 0px);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.button-particles--active {
+  visibility: visible;
+}
+
+.button-particles__block {
+  position: absolute;
+  left: var(--particle-x);
+  top: var(--particle-y);
+  width: var(--particle-size);
+  height: var(--particle-size);
+  border-radius: 0;
+  background: var(--particle-color);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.button-particles--active .button-particles__block {
+  animation: button-block-flight var(--particle-duration) ease-out
+    var(--particle-delay) infinite;
+}
+
+@keyframes button-block-flight {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.6);
+  }
+  18% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(
+        calc(-50% + var(--particle-dx)),
+        calc(-50% + var(--particle-dy))
+      )
+      scale(0.3);
+  }
+}
+
+/* Hanya simbol panah bergerak; kotak/partikel tetap memakai posisi aslinya. */
+.arrow-motion__glyph {
+  display: inline-block;
+  transform: translateX(var(--arrow-rest-x, 0px));
+  transition: transform var(--arrow-return-duration) ease-out;
+}
+
+.arrow-motion__glyph--reset {
+  transition: none;
+}
+
+.arrow-motion__clip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 1.5rem;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.arrow-motion--active .arrow-motion__glyph {
+  animation: arrow-nudge var(--arrow-nudge-duration) ease-out 1 both;
+}
+
+.arrow-motion--cycle.arrow-motion--active .arrow-motion__glyph {
+  animation: arrow-pass var(--arrow-cycle-duration) ease-in-out 1 both;
+}
+
+@keyframes arrow-nudge {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(8px);
+  }
+}
+
+@keyframes arrow-pass {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  45% {
+    transform: translateX(2rem);
+    opacity: 1;
+  }
+  49% {
+    transform: translateX(2rem);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(-2rem);
+    opacity: 0;
+  }
+  55% {
+    transform: translateX(-2rem);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Posisi awal tetap; padding hanya masuk saat hover/fokus. */
+.text-link {
+  --text-link-hover-padding: 0.625rem;
+  --text-link-hover-width: 100%;
+}
+
+/* Link teks: sapuan difference dibatasi pada label, bukan area klik/panah. */
+.text-link__label {
+  position: relative;
+  display: inline-block;
+  padding-inline: 0;
+  transition: padding-inline 300ms ease;
+}
+
+.text-link__label::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 0;
+  height: 100%;
+  background-color: #ffffff;
+  mix-blend-mode: difference;
+  pointer-events: none;
+  transition: width 300ms ease;
+}
+
+.text-link:not(.message__link):focus-visible .text-link__label {
+  padding-inline: var(--text-link-hover-padding);
+}
+
+.text-link:focus-visible .text-link__label::before {
+  width: var(--text-link-hover-width);
+}
+
+/* Varian warna tetap: sapuan mencakup seluruh link beserta panah. */
+.text-link--solid {
+  position: relative;
+  isolation: isolate;
+  transition: color 300ms ease;
+}
+
+.text-link--solid::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  width: 0;
+  height: 100%;
+  background-color: var(--text-link-hover-background);
+  pointer-events: none;
+  transition: width 300ms ease;
+}
+
+.text-link--solid .text-link__label::before {
+  content: none;
+}
+
+.text-link--solid:focus-visible {
+  color: var(--text-link-hover-color);
+}
+
+.text-link--solid:focus-visible::before {
+  width: var(--text-link-hover-width);
+}
+
+/* Batch 2 — Header dan Hero. Fondasi Batch 1 tetap dipertahankan. */
+.skip-link {
+  position: fixed;
+  top: var(--space-1);
+  left: var(--space-2);
+  z-index: 30;
+  padding: var(--space-1) var(--space-2);
+  color: var(--color-text-secondary);
+  background: var(--color-navy);
+  transform: translateY(calc(-100% - var(--space-2)));
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.header {
+  --header-padding-inline: var(--page-gutter);
+  --header-padding-block: 1.25rem;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: transparent;
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--header-padding-block) var(--header-padding-inline);
+}
+
+.header__brand {
+  flex-shrink: 0;
+}
+
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.header__recruiting {
+  line-height: 1.25rem;
+  display: none;
+}
+
+.header__menu-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.625rem;
+  height: 3.25rem;
+  padding: var(--space-2);
+  border: 0;
+  border-radius: var(--radius-button);
+  color: var(--color-text-secondary);
+  background: var(--color-navy);
+  cursor: default;
+}
+
+.header__menu-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  width: 1.75rem;
+}
+
+.header__menu-icon > span {
+  height: 2px;
+  background: currentColor;
+}
+
+/* Fokus tetap jelas di atas latar Hero yang terang. */
+.skip-link:focus-visible,
+.header__recruiting:focus-visible,
+.header__menu-button:focus-visible,
+.hero__button:focus-visible {
+  outline-color: var(--color-navy);
+}
+
+.hero {
+  --block-color-blue: #8ddcfa;
+  --block-color-cyan: #91eaf7;
+  --float-motion-scale: 0.65;
+  overflow: clip;
+  padding-block: 2.5rem 1.6875rem;
+}
+
+.hero__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.hero__content {
+  container-type: inline-size;
+  position: relative;
+  z-index: 3;
+  max-width: none;
+}
+
+.hero__eyebrow {
+  margin-bottom: var(--space-2);
+}
+
+.hero__title {
+  color: var(--color-navy);
+  /* Baris terpanjang berisi 9 karakter; sesuaikan agar tetap muat. */
+  font-size: min(var(--font-size-hero-title), 11.11cqi);
+  letter-spacing: -0.02em;
+}
+
+.hero__title-lead,
+.hero__title-accent,
+.hero__title-ending {
+  display: block;
+  white-space: nowrap;
+}
+
+.hero__title-accent {
+  color: var(--color-accent);
+}
+
+.hero__description {
+  margin-top: var(--space-2);
+  line-height: 2;
+}
+
+.hero__description br {
+  display: none;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  flex-direction: column;
+}
+
+.hero__button {
+  line-height: 1.5rem;
+  width: 100%;
+  padding-inline: var(--space-3);
+}
+
+.hero__media {
+  position: relative;
+  width: 100%;
+  max-width: 32rem;
+  aspect-ratio: 342 / 264;
+  justify-self: center;
+  isolation: isolate;
+  grid-row: 1;
+}
+
+.hero__image {
+  position: absolute;
+  object-fit: cover;
+}
+
+.hero__image--primary {
+  top: 0;
+  left: 5.2632%;
+  z-index: 1;
+  width: 85.7143%;
+  height: auto;
+  aspect-ratio: 1.4;
+}
+
+.hero__image--secondary {
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 32.7485%;
+}
+
+/* Ornamen CSS: posisi relatif ke komposisi foto, tanpa aset tambahan.
+   Bentuk dan layer diperiksa dahulu dalam versi statis. */
+.floating-block {
+  --float-distance: 0.5rem;
+  --float-duration: 14s;
+  --float-delay: -3s;
+  --parallax-distance: 1.5rem;
+  --parallax-scale: 0.5;
+  position: absolute;
+  display: block;
+  pointer-events: none;
+  background: var(--block-color-blue);
+  opacity: 0.35;
+  /* Translate scroll terpisah dari transform loop mengambang. */
+  translate: 0
+    calc(
+      var(--parallax-progress, 0) * var(--parallax-distance) *
+        var(--parallax-scale)
+    );
+  animation: floating-block-drift var(--float-duration) ease-in-out
+    var(--float-delay) infinite;
+}
+
+.floating-block--middle {
+  --parallax-distance: 3rem;
+  --float-distance: 0.875rem;
+  --float-duration: 12s;
+  --float-delay: -7s;
+  background: var(--block-color-cyan);
+  opacity: 0.45;
+}
+
+.floating-block--lower {
+  --parallax-distance: 3.75rem;
+  --float-distance: 1.125rem;
+  --float-duration: 10s;
+  --float-delay: -4s;
+  opacity: 0.4;
+}
+
+.floating-block--near {
+  --parallax-distance: 4.5rem;
+  --float-distance: 1.5rem;
+  --float-duration: 8s;
+  --float-delay: -1s;
+  background: var(--block-color-cyan);
+  opacity: 0.5;
+}
+
+.hero__block {
+  z-index: 0;
+}
+
+.hero__block--top {
+  top: -18%;
+  left: 67.25%;
+  width: 38%;
+  aspect-ratio: 1.31;
+}
+
+.hero__block--left {
+  top: 34.5%;
+  left: -7%;
+  width: 26.3%;
+  aspect-ratio: 1;
+}
+
+.hero__block--bottom {
+  top: 40%;
+  left: 18.1%;
+  width: 40%;
+  aspect-ratio: 1;
+}
+
+.hero__block--front {
+  top: 75%;
+  left: 50.9%;
+  z-index: 3;
+  width: 25.7%;
+  aspect-ratio: 1;
+}
+
+/* Setiap blok memiliki jarak, durasi, dan fase sendiri untuk kesan kedalaman.
+   Transform tidak mengubah layout maupun posisi foto/teks. */
+@keyframes floating-block-drift {
+  0%,
+  100% {
+    transform: translateY(
+      calc(-1 * var(--float-distance) * var(--float-motion-scale, 1))
+    );
+  }
+
+  50% {
+    transform: translateY(
+      calc(var(--float-distance) * var(--float-motion-scale, 1))
+    );
+  }
+}
+
+/* Batch 3 — OUR MESSAGE. Semua aturan dibatasi ke section ini. */
+.message {
+  --block-color-blue: #8ddcfa;
+  --block-color-cyan: #91eaf7;
+  --float-motion-scale: 0.65;
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding-block: var(--section-padding-mobile);
+  scroll-margin-top: 6rem;
+}
+
+.message__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.message__media {
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: 342 / 238;
+  width: 100%;
+  max-width: 32rem;
+  justify-self: center;
+}
+
+.message__image {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 7.9%;
+  width: 87.4%;
+  height: auto;
+}
+
+.message__block--back {
+  top: -10.9%;
+  left: 0;
+  width: 24.3%;
+  aspect-ratio: 83 / 78;
+  z-index: 0;
+}
+
+.message__block--bottom {
+  top: 82%;
+  left: 19.6%;
+  width: 24.3%;
+  aspect-ratio: 83 / 42;
+  z-index: 0;
+}
+
+.message__block--front {
+  top: 56.7%;
+  left: 83%;
+  width: 18.1%;
+  aspect-ratio: 62 / 53;
+  z-index: 2;
+}
+
+.message__content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  justify-self: end;
+}
+
+.message__eyebrow {
+  margin-bottom: var(--section-eyebrow-gap);
+}
+
+.message__title {
+  color: var(--color-navy);
+}
+
+.message__description {
+  margin-top: var(--section-text-gap);
+}
+
+.message__link {
+  --text-link-hover-padding-end: calc(var(--text-link-hover-padding) + 0.5rem);
+  --text-link-hover-background: #065fcd;
+  --text-link-hover-color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  max-width: 100%;
+  min-height: 2.75rem;
+  margin-top: var(--section-button-gap);
+  color: var(--color-accent);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  padding-inline: 0;
+  transition:
+    color 300ms ease,
+    padding-inline 300ms ease;
+}
+
+.message__link .text-link__label {
+  padding-inline: 0;
+}
+
+.message__link:focus-visible {
+  padding-inline: var(--text-link-hover-padding)
+    var(--text-link-hover-padding-end);
+  outline-color: var(--color-accent);
+}
+
+.message__decoration {
+  display: block;
+  z-index: 0;
+  aspect-ratio: 1;
+}
+
+.message__line-break {
+  display: none;
+}
+
+.message__decoration--top {
+  top: 0.75rem;
+  right: 18.5%;
+  width: 2rem;
+}
+
+.message__decoration--side {
+  top: 58%;
+  right: var(--page-gutter);
+  width: 1.5rem;
+}
+
+.message__decoration--bottom {
+  bottom: var(--space-4);
+  left: 10%;
+  width: 2.25rem;
+}
+
+/* Batch 4 — WHY US. Background solid sesuai referensi section ini. */
+.why-us {
+  --block-color-blue: #8ddcfa;
+  --block-color-cyan: #91eaf7;
+  --float-motion-scale: 0.65;
+  --why-us-row-offset: 0rem;
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding-block: var(--section-padding-mobile);
+  background: var(--background-section-blue);
+  color: var(--color-text-secondary);
+  scroll-margin-top: 6rem;
+}
+
+.why-us__inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.why-us__eyebrow {
+  margin-bottom: var(--section-eyebrow-gap);
+}
+
+.why-us__list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+  width: calc(100% - var(--why-us-row-offset));
+  margin: 5rem 0 0;
+  padding: 0;
+  list-style: none;
+  margin-top: var(--section-content-gap);
+}
+
+.why-us__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: var(--space-3) var(--space-2);
+  border-radius: var(--radius-card);
+  background: var(--color-text-secondary);
+  color: var(--color-navy);
+}
+
+.why-us__card:nth-child(-n + 2) {
+  transform: translateX(var(--why-us-row-offset));
+}
+
+.why-us__icon {
+  display: block;
+  width: 4rem;
+  max-width: 100%;
+}
+
+.why-us__card-title {
+  margin-top: var(--space-1);
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.why-us__block {
+  z-index: 0;
+  aspect-ratio: 1;
+}
+
+.why-us__block--top {
+  top: 3%;
+  right: -0.5%;
+  width: 22%;
+}
+
+.why-us__block--left {
+  top: 16.5%;
+  left: 2%;
+  width: 6.7%;
+  aspect-ratio: 1;
+}
+
+.why-us__block--center {
+  top: 53%;
+  left: 52%;
+  width: 18%;
+}
+
+.why-us__block--small {
+  top: 52.5%;
+  left: 62%;
+  width: 10.5%;
+}
+
+.why-us__block--right {
+  top: auto;
+  right: -0.5%;
+  width: 23%;
+  bottom: 4.4%;
+}
+
+.why-us__block--bottom {
+  bottom: 2%;
+  right: auto;
+  width: 10.5%;
+  left: 27%;
+}
+
+/* Batch 5 — MISSION. Latar transparan memakai gradasi halaman bersama. */
+.mission {
+  --block-color-blue: #8ddcfa;
+  --block-color-cyan: #91eaf7;
+  --float-motion-scale: 0.65;
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding-block: var(--section-padding-mobile);
+  scroll-margin-top: 6rem;
+}
+
+.mission__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.mission__content {
+  position: relative;
+  z-index: 1;
+  max-width: none;
+}
+
+.mission__eyebrow {
+  margin-bottom: var(--section-eyebrow-gap);
+}
+
+.mission__title {
+  color: var(--color-navy);
+}
+
+.mission__description {
+  margin-top: var(--section-text-gap);
+}
+
+.mission__line-break {
+  display: none;
+}
+
+.mission__button {
+  margin-top: var(--section-button-gap);
+  line-height: var(--line-height-button-section);
+  width: 100%;
+  padding-inline: var(--space-3);
+}
+
+.mission__button:focus-visible {
+  outline-color: var(--color-navy);
+}
+
+.mission__media {
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: 342 / 242;
+  grid-row: 1;
+  width: 100%;
+  max-width: 32rem;
+  justify-self: center;
+}
+
+.mission__image {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 7.9%;
+  width: 87.4%;
+  height: auto;
+}
+
+.mission__block {
+  z-index: 0;
+}
+
+.mission__block--top {
+  top: -12%;
+  left: 19%;
+  width: 24%;
+  aspect-ratio: 1;
+}
+
+.mission__block--bottom {
+  top: 66%;
+  left: 0;
+  width: 24.3%;
+  aspect-ratio: 1;
+}
+
+.mission__block--front {
+  z-index: 2;
+  top: 74%;
+  right: -1.5%;
+  width: 15.2%;
+  aspect-ratio: 52 / 46;
+}
+
+.mission__decoration {
+  display: block;
+  z-index: 0;
+  left: 0;
+  bottom: 3.25rem;
+  width: 6.5rem;
+  aspect-ratio: 104 / 92;
+}
+
+/* Batch 6 — JOBS. Menggunakan gradasi halaman dan gerak ornamen bersama. */
+.jobs {
+  --block-color-blue: #8ddcfa;
+  --block-color-cyan: #91eaf7;
+  --float-motion-scale: 0.65;
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding-block: var(--space-2) var(--section-padding-mobile);
+  scroll-margin-top: 6rem;
+}
+
+.jobs__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.jobs__intro {
+  text-align: left;
+}
+
+.jobs__eyebrow {
+  margin-bottom: var(--section-eyebrow-gap);
+}
+
+.jobs__title {
+  color: var(--color-navy);
+}
+
+.jobs__description,
+.jobs__card-description {
+  line-height: var(--line-height-section-text);
+}
+
+.jobs__description {
+  margin-top: var(--section-text-gap);
+}
+
+.jobs__list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+  margin-top: var(--section-content-gap);
+}
+
+.jobs__card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-card);
+  color: var(--color-text-secondary);
+  background-color: var(--color-navy);
+}
+
+.jobs__image {
+  grid-column: 1;
+  grid-row: 1;
+  width: 100%;
+  align-self: center;
+  aspect-ratio: 282 / 182;
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+.jobs__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.jobs__card-eyebrow {
+  margin-bottom: var(--space-2);
+}
+
+.jobs__card-title {
+  margin-top: auto;
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.jobs__card-description {
+  margin-top: var(--space-2);
+}
+
+.jobs__button {
+  margin-top: var(--space-2);
+  line-height: var(--line-height-button-section);
+}
+
+.jobs__block {
+  z-index: 0;
+}
+
+.jobs__block--top {
+  top: 2.75rem;
+  left: auto;
+  width: 12%;
+  aspect-ratio: 44 / 40;
+  right: 19%;
+}
+
+.jobs__block--side {
+  top: auto;
+  right: 0;
+  width: 13.5%;
+  aspect-ratio: 104 / 92;
+  bottom: -1.5rem;
+}
+
+.jobs__block--bottom {
+  bottom: 2.75rem;
+  left: 26.5%;
+  width: 12%;
+  aspect-ratio: 44 / 40;
+}
+
+/* Batch 7 — INTERVIEW. Gradasi dan gerak ornamen mengikuti pola bersama. */
+.interview {
+  --block-color-blue: #8ddcfa;
+  --block-color-cyan: #91eaf7;
+  --float-motion-scale: 0.65;
+  --interview-link-radius: 0.25rem;
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding-block: var(--space-2) var(--section-padding-mobile);
+  scroll-margin-top: 6rem;
+}
+
+.interview__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.interview__intro {
+  text-align: left;
+}
+
+.interview__eyebrow {
+  margin-bottom: var(--section-eyebrow-gap);
+}
+
+.interview__title,
+.interview__card-title {
+  color: var(--color-navy);
+}
+
+.interview__description {
+  margin-top: var(--section-text-gap);
+  line-height: var(--line-height-section-text);
+}
+
+.interview__list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 3.75rem;
+  max-width: 32rem;
+  margin: var(--space-6) auto 0;
+  padding: 0;
+  list-style: none;
+  margin-top: var(--section-content-gap);
+}
+
+.interview__card {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  min-width: 0;
+  width: calc(100% - 1.875rem);
+}
+
+.interview__card--offset {
+  margin-top: 0;
+}
+
+.interview__image {
+  grid-area: 1 / 1;
+  z-index: 1;
+  width: 100%;
+  align-self: start;
+}
+
+.interview__content {
+  grid-area: 1 / 1;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-self: end;
+  align-self: end;
+  width: 90%;
+  min-height: 9.5rem;
+  margin: 0.75rem;
+  padding: 0.75rem;
+  background-color: var(--color-text-secondary);
+}
+
+.interview__card-title {
+  font-size: 1.0625rem;
+  line-height: 1.75rem;
+}
+
+.interview__card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-1);
+  margin-top: auto;
+  padding-top: var(--space-3);
+}
+
+.interview__label {
+  min-width: 0;
+  font-size: 0.75rem;
+  line-height: var(--line-height-section-text);
+}
+
+.interview__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 2.25rem;
+  min-height: 2.125rem;
+  border-radius: var(--interview-link-radius);
+  color: var(--color-button-primary-text);
+  background-color: var(--color-button-primary);
+  line-height: var(--line-height-button-section);
+  text-decoration: none;
+  flex-basis: 2.125rem;
+}
+
+.interview__link:focus-visible {
+  outline-color: var(--color-accent);
+}
+
+.interview__link-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.interview__actions {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  max-width: 100%;
+  margin: 5rem auto 0;
+  margin-top: 3.75rem;
+}
+
+.interview__button {
+  position: relative;
+  z-index: 1;
+  line-height: var(--line-height-button-section);
+  width: 100%;
+  padding-inline: var(--space-3);
+}
+
+.interview__button:focus-visible {
+  outline-color: var(--color-navy);
+}
+
+.interview__block,
+.interview__decoration {
+  z-index: 0;
+}
+
+.interview__decoration--top {
+  top: 0;
+  right: 0;
+  width: 13.5%;
+  aspect-ratio: 116 / 164;
+}
+
+.interview__decoration--edge {
+  left: 0;
+  bottom: 27%;
+  width: 10.5%;
+  aspect-ratio: 40 / 72;
+}
+
+.interview__block--front {
+  z-index: 2;
+  top: 70%;
+  left: -13%;
+  width: 25.8%;
+  aspect-ratio: 128 / 116;
+  display: none;
+}
+
+.interview__block--back {
+  top: -7%;
+  left: -3%;
+  width: 22%;
+  aspect-ratio: 142 / 126;
+}
+
+.interview__block--small {
+  top: -10%;
+  right: 8%;
+  width: 12.5%;
+  aspect-ratio: 62 / 56;
+}
+
+.interview__block--large {
+  top: -9%;
+  right: -6%;
+  width: 31%;
+  aspect-ratio: 248 / 220;
+}
+
+.interview__block--action {
+  top: -0.5rem;
+  left: calc(0px - var(--page-gutter));
+  width: 3.75rem;
+  aspect-ratio: 60 / 96;
+}
+
+.interview__card:nth-child(odd) {
+  justify-self: end;
+}
+
+.interview__title {
+  font-size: 1.5rem;
+}
+
+/* Batch 8 — CULTURE: slider natif dengan kontrol vanilla JavaScript. */
+.culture {
+  --block-color-blue: #8ddcfa;
+  --float-motion-scale: 0.65;
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding-block: var(--space-2) var(--section-padding-mobile);
+  scroll-margin-top: 6rem;
+}
+
+.culture__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--section-content-gap);
+  align-items: start;
+}
+
+.culture__eyebrow {
+  margin-bottom: var(--section-eyebrow-gap);
+}
+.culture__title {
+  color: var(--color-navy);
+}
+.culture__description {
+  margin-top: var(--section-text-gap);
+  line-height: var(--line-height-section-text);
+}
+
+.culture__slider {
+  --culture-card-width: calc(100cqi - 2.5rem);
+  --culture-card-gap: 0.75rem;
+  --culture-preview-x: calc(
+    (var(--culture-card-width) - 6.5rem) * -0.46557971 - 2.75rem
+  );
+  --culture-preview-y: 0px;
+  container-type: inline-size;
+  position: relative;
+  min-width: 0;
+  width: calc(100% + var(--page-gutter));
+}
+
+.culture__viewport {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: auto;
+  cursor: grab;
+  border-radius: var(--radius-card) 0 0 var(--radius-card);
+}
+.culture__viewport::-webkit-scrollbar {
+  display: none;
+}
+.culture__viewport:focus-visible {
+  outline-color: var(--color-navy);
+}
+.culture__viewport--dragging,
+.culture__viewport--animating {
+  scroll-snap-type: none;
+}
+.culture__viewport--dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+  user-select: none;
+}
+
+.culture__track {
+  display: flex;
+  align-items: stretch;
+  gap: var(--culture-card-gap);
+  width: max-content;
+  /* Ruang akhir memungkinkan kartu terakhir snap ke posisi yang sama. */
+  padding-right: max(0px, calc(100cqi - var(--culture-card-width)));
+}
+
+.culture__card {
+  --culture-reveal: 1;
+  --culture-photo: 1;
+  --culture-text: 1;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+  flex: 0 0 var(--culture-card-width);
+  width: var(--culture-card-width);
+  padding: 1.25rem;
+  border-radius: var(--radius-card);
+  color: var(--color-text-secondary);
+  background-color: var(--color-navy);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+.culture__image {
+  width: 100%;
+  align-self: start;
+  opacity: var(--culture-photo);
+  transform: none;
+  aspect-ratio: 264 / 190;
+  object-fit: cover;
+  object-position: center 20%;
+}
+.culture__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  padding-top: 0;
+}
+.culture__card-title {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  transform-origin: left top;
+  transform: none;
+  opacity: var(--culture-photo);
+}
+.culture__card-description {
+  margin-top: var(--space-2);
+  margin-bottom: var(--space-4);
+  line-height: var(--line-height-section-text);
+  opacity: var(--culture-text);
+}
+.culture__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: auto;
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-button-section);
+  text-decoration: none;
+  transform: none;
+  opacity: var(--culture-photo);
+}
+.culture__link-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  min-height: 2rem;
+  border-radius: 0.25rem;
+  background: var(--color-accent);
+}
+/* Semua konten tetap dalam layout agar fade tidak mengubah tinggi kartu. */
+.culture__card--preview {
+  --culture-reveal: 0;
+  --culture-photo: 0;
+  --culture-text: 0;
+}
+.culture__next {
+  position: absolute;
+  z-index: 2;
+  top: auto;
+  left: calc(var(--culture-card-width) + var(--culture-card-gap) / 2);
+  display: grid;
+  place-items: center;
+  width: 3.625rem;
+  height: 3.625rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: var(--color-navy);
+  background: var(--color-text-secondary);
+  font-size: 1.5rem;
+  line-height: var(--line-height-button-section);
+  transform: translateX(-50%) scale(1);
+  transition: transform 260ms ease-out;
+  bottom: 4.25rem;
+}
+.culture__next:focus-visible {
+  transform: translateX(-50%) scale(1.15);
+  outline-color: var(--color-accent);
+  box-shadow: 0 0 0 var(--focus-offset) var(--color-text-secondary);
+}
+.culture__dot:focus-visible {
+  outline-color: var(--color-navy);
+}
+.culture__dots {
+  display: flex;
+  justify-content: flex-end;
+  width: var(--culture-card-width);
+  margin-top: var(--space-1);
+}
+.culture__dot {
+  display: grid;
+  place-items: center;
+  width: 1.125rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.culture__dot span {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--color-navy);
+  opacity: 0.45;
+}
+.culture__dot[aria-pressed="true"] span {
+  width: 0.75rem;
+  height: 0.75rem;
+  opacity: 1;
+}
+.culture__status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.culture__block {
+  z-index: 0;
+  background: var(--block-color-blue);
+  opacity: 0.35;
+}
+.culture__block--top {
+  top: 11.5rem;
+  right: 12.5%;
+  width: 1.75rem;
+  aspect-ratio: 1;
+}
+.culture__block--bottom {
+  bottom: 2.25rem;
+  left: calc(var(--page-gutter) + 1.5rem);
+  width: 3.125rem;
+  aspect-ratio: 1;
+}
+
+.culture__line-break {
+  display: none;
+}
+
+/* Batch 9–12 — SELECTION, FAQ, JOIN OUR TEAM, dan FOOTER. */
+.selection,
+.faq {
+  --float-motion-scale: 0.65;
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  scroll-margin-top: 6rem;
+}
+.selection {
+  --selection-detail-color: #4e8ddc;
+  padding-block: var(--section-padding-mobile);
+  color: var(--color-text-secondary);
+  background: var(--background-section-blue);
+}
+.selection__inner,
+.faq__inner {
+  position: relative;
+  z-index: 1;
+}
+.selection__intro {
+  text-align: left;
+}
+.selection__eyebrow,
+.faq__eyebrow,
+.join-team__eyebrow {
+  margin-bottom: var(--section-eyebrow-gap);
+}
+.selection__description,
+.faq__description,
+.join-team__description {
+  margin-top: var(--section-text-gap);
+  line-height: var(--line-height-section-text);
+}
+.selection__list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+  margin: var(--section-content-gap) var(--space-4) 0;
+  padding: 0;
+  list-style: none;
+}
+.selection__card {
+  padding: var(--space-4);
+  border: 2px solid var(--selection-detail-color);
+}
+.selection__step {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-1);
+  margin-bottom: 1.875rem;
+  color: var(--selection-detail-color);
+  line-height: 1;
+}
+.selection__number {
+  font-size: 4rem;
+  font-weight: var(--font-weight-bold);
+}
+.selection__label {
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-eyebrow);
+}
+.selection__card-title {
+  margin-bottom: var(--space-2);
+  font-size: 1.375rem;
+  line-height: 2rem;
+}
+.selection__card-description {
+  line-height: var(--line-height-section-text);
+}
+.selection__block {
+  z-index: 0;
+  background: #8ddcfa;
+  opacity: 0.35;
+}
+.selection__block--top {
+  top: 4.75rem;
+  right: 9%;
+  width: 4.25rem;
+  aspect-ratio: 1;
+}
+.selection__block--edge {
+  top: 35%;
+  left: -1rem;
+  width: 3rem;
+  aspect-ratio: 1;
+}
+.selection__block--side {
+  display: block;
+  top: 66%;
+  right: 0.75rem;
+  width: 2rem;
+  aspect-ratio: 1;
+}
+.selection__block--bottom {
+  bottom: 1.75rem;
+  left: 57%;
+  width: 3.25rem;
+  aspect-ratio: 1;
+}
+
+.faq {
+  --faq-duration: 320ms;
+  --faq-easing: cubic-bezier(0.22, 1, 0.36, 1);
+  padding-block: var(--section-padding-mobile);
+}
+.faq__inner {
+  max-width: 1112px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--section-content-gap);
+  align-items: start;
+}
+.faq__title {
+  color: var(--color-navy);
+}
+.faq__item--animating {
+  overflow: hidden;
+}
+.faq__item {
+  border-top: 1px solid rgb(4 57 103 / 8%);
+}
+.faq__question {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) 1.25rem;
+  gap: var(--space-1);
+  align-items: start;
+  padding-block: 2.5rem;
+  cursor: pointer;
+  list-style: none;
+  color: var(--color-navy);
+}
+.faq__item[open] .faq__question {
+  padding-bottom: 1.25rem;
+}
+.faq__question::-webkit-details-marker {
+  display: none;
+}
+.faq__question:focus-visible {
+  outline-color: var(--color-accent);
+  outline-offset: 0;
+}
+.faq__number {
+  font-size: 0.875rem;
+  line-height: 1.75rem;
+  letter-spacing: var(--letter-spacing-eyebrow);
+}
+.faq__question-text {
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.75rem;
+}
+.faq__icon {
+  position: relative;
+  width: 1.25rem;
+  height: 1.75rem;
+  color: var(--color-accent);
+}
+.faq__icon::before,
+.faq__icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1rem;
+  height: 1px;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+}
+.faq__icon::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+.faq__item[open] .faq__icon::after {
+  display: none;
+}
+.faq__answer {
+  padding: 0 2.5rem 2.5rem 3.75rem;
+  line-height: var(--line-height-section-text);
+  padding-inline: 2.5rem 1.75rem;
+}
+.faq__block {
+  z-index: 0;
+  background: #8ddcfa;
+  opacity: 0.35;
+}
+.faq__block--side {
+  top: 51%;
+  right: -1rem;
+  width: 3.75rem;
+  aspect-ratio: 1;
+}
+.faq__block--small {
+  top: 20.5rem;
+  left: 12%;
+  width: 1.75rem;
+  aspect-ratio: 1;
+  background: #91eaf7;
+}
+.faq__block--bottom {
+  bottom: var(--space-3);
+  left: 14%;
+  width: var(--space-5);
+  aspect-ratio: 1;
+}
+
+.faq__line-break {
+  display: none;
+}
+.join-team {
+  min-height: 22rem;
+  display: grid;
+  align-items: center;
+  padding-block: 3.75rem;
+  color: var(--color-text-secondary);
+  background:
+    linear-gradient(var(--overlay-join-team), var(--overlay-join-team)),
+    url("../assets/images/join-our-team-image@2x.jpg") center / cover no-repeat;
+}
+.join-team__inner {
+  text-align: center;
+}
+.join-team__button {
+  margin-top: var(--section-button-gap);
+  background: var(--color-text-secondary);
+  color: var(--color-navy);
+  line-height: var(--line-height-button-section);
+  width: calc(100% - 3.5rem);
+  padding-inline: var(--space-3);
+  transition: color var(--button-hover-duration) ease;
+}
+.join-team__button:focus-visible {
+  outline-color: var(--color-text-secondary);
+}
+
+.join-team__title {
+  font-size: 1.5rem;
+  line-height: 2.25rem;
+}
+
+.join-team__description {
+  font-size: 0.875rem;
+}
+
+.footer {
+  --footer-tagline-color: #5778a0;
+  --footer-muted-color: #c5d5e8;
+  padding-block: 2.75rem 1.875rem;
+  color: var(--color-text-secondary);
+  background: var(--background-footer);
+}
+.footer__logo {
+  display: inline-block;
+}
+.footer__content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--section-content-gap);
+  margin-top: 3.75rem;
+}
+.footer__tagline {
+  color: var(--footer-tagline-color);
+  font-size: clamp(1.375rem, 7.5vw, 2rem);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.15;
+}
+.footer__actions {
+  display: grid;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 3.75rem;
+}
+.footer__button {
+  width: 100%;
+  line-height: var(--line-height-button-section);
+  padding-inline: var(--space-3);
+}
+.footer__button.button--light {
+  --button-hover-gradient: var(--button-hover-gradient-primary);
+  transition: color var(--button-hover-duration) ease;
+}
+
+.join-team__button.button-effect--active,
+.footer__button.button--light.button-effect--active {
+  color: var(--color-text-secondary);
+}
+
+.footer__button:focus-visible {
+  outline-color: var(--color-text-secondary);
+}
+.footer__nav {
+  align-self: end;
+}
+.footer__list {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.footer__link {
+  --text-link-hover-background: #ffffff;
+  --text-link-hover-color: #043967;
+  color: var(--footer-muted-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  line-height: 1.5rem;
+  padding-block: 1.25rem;
+  border-bottom: 1px solid rgb(255 255 255 / 20%);
+  font-size: 0.875rem;
+}
+.footer__link.text-link--solid::before {
+  content: none;
+}
+
+.footer__link.text-link--solid .text-link__label::before {
+  content: "";
+  z-index: -1;
+  background-color: var(--text-link-hover-background);
+  mix-blend-mode: normal;
+}
+
+.footer__link.text-link--solid:focus-visible .text-link__label::before {
+  width: var(--text-link-hover-width);
+}
+
+.footer__link:focus-visible {
+  outline-color: var(--color-text-secondary);
+}
+
+.footer__link-arrow {
+  color: var(--footer-muted-color);
+  display: inline;
+}
+.footer__copyright {
+  color: var(--footer-muted-color);
+  margin-top: 2.5rem;
+  padding-top: 0;
+  border-top: 0;
+  text-align: center;
+  line-height: 1.5rem;
+}
+.footer__copyright small {
+  font-size: 0.75rem;
+}
+
+/* Breakpoint mobile first: setiap kelompok menambahkan penyesuaian
+   untuk layar yang lebih besar; nilai desain sebelumnya dipertahankan. */
+
+/* Mobile — mulai 361px */
+@media (min-width: 361px) {
+  /* INTERVIEW */
+
+  .interview__title {
+    font-size: var(--font-size-section-title);
+  }
+
+  .interview__content {
+    width: 77%;
+    margin: var(--space-2);
+    padding: var(--space-2);
+  }
+}
+
+/* Tablet — mulai 769px */
+@media (min-width: 769px) {
+  /* Variabel bersama */
+
+  :root {
+    --page-gutter: 1.5rem;
+    --section-eyebrow-gap: var(--space-4);
+    --section-text-gap: var(--space-2);
+    --section-button-gap: var(--space-4);
+    --section-content-gap: var(--space-6);
+    --font-size-hero-title: 4rem;
+    --line-height-hero-title: 5.25rem;
+    --font-size-hero-eyebrow: 1.125rem;
+    --line-height-hero-eyebrow: 2.5rem;
+    --font-size-section-title: 2.25rem;
+    --line-height-section-title: 3.25rem;
+    --font-size-section-eyebrow: 1rem;
+    --line-height-section-eyebrow: 1rem;
+  }
+
+  /* Header dan Hero */
+
+  .header {
+    --header-padding-inline: 3rem;
+  }
+
+  .header__recruiting {
+    display: inline-flex;
+  }
+
+  .hero {
+    --float-motion-scale: 1;
+    --font-size-hero-title: clamp(2.1875rem, 4.23vw, 4rem);
+    --line-height-hero-title: 1.3125;
+    padding-block: var(--space-6);
+  }
+
+  .hero__inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-3);
+  }
+
+  .hero__content {
+    max-width: 36.5rem;
+  }
+
+  .hero__eyebrow {
+    margin-bottom: var(--space-4);
+  }
+
+  .hero__media {
+    grid-row: auto;
+    width: calc(100% + var(--space-6));
+    max-width: calc(
+      100% +
+        min(
+          var(--space-6),
+          max(
+            0px,
+            (100vw - var(--container-max-width)) / 2 - var(--page-gutter)
+          )
+        )
+    );
+    aspect-ratio: 720 / 632;
+    justify-self: start;
+  }
+
+  .hero__image--primary {
+    left: 0;
+    width: 89.4444%;
+    /* Gunakan kembali rasio dari atribut width/height gambar. */
+    aspect-ratio: revert-layer;
+  }
+
+  .hero__image--secondary {
+    width: 41.9444%;
+  }
+
+  .hero__block--top {
+    top: -17.1%;
+    left: 59.3%;
+    width: 45.3%;
+  }
+
+  .hero__block--left {
+    left: -10.2%;
+    width: 27.2%;
+  }
+
+  .hero__block--bottom {
+    top: 58%;
+    left: 11.1%;
+    width: 35%;
+  }
+
+  .hero__block--front {
+    top: 76.1%;
+    left: 37.6%;
+    width: 27.2%;
+    aspect-ratio: 0.94;
+  }
+
+  .hero__actions {
+    flex-direction: row;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+
+  .hero__button {
+    width: auto;
+    padding-inline: 3.375rem;
+  }
+
+  .hero__description {
+    font-size: 1.375rem;
+    margin-top: var(--space-4);
+    line-height: var(--line-height-text);
+  }
+
+  .hero__description br {
+    display: inline;
+  }
+
+  .header__recruiting,
+  .hero__button {
+    font-size: 1.25rem;
+  }
+
+  /* Ornamen */
+
+  .floating-block {
+    --parallax-scale: 1;
+  }
+
+  /* OUR MESSAGE */
+
+  .message {
+    --float-motion-scale: 1;
+    padding-block: var(--space-6);
+  }
+
+  .message__inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-5);
+  }
+
+  .message__media {
+    width: auto;
+    max-width: none;
+    aspect-ratio: 656 / 444;
+    justify-self: auto;
+  }
+
+  .message__image {
+    top: 6.76%;
+    left: 10.37%;
+    width: 84.76%;
+  }
+
+  .message__block--back {
+    top: -4.5%;
+    width: 31.1%;
+    aspect-ratio: 204 / 166;
+  }
+
+  .message__block--bottom {
+    top: 86.7%;
+    left: 17.2%;
+    width: 22%;
+    aspect-ratio: 144 / 86;
+  }
+
+  .message__block--front {
+    top: 62.5%;
+    left: 82.6%;
+    width: 19.8%;
+    aspect-ratio: 130 / 116;
+  }
+
+  .message__content {
+    width: 100%;
+  }
+
+  .message__description {
+    margin-top: var(--space-3);
+  }
+
+  .message__line-break {
+    display: none;
+  }
+
+  .message__decoration {
+    display: none;
+    z-index: auto;
+    aspect-ratio: auto;
+  }
+
+  .message__decoration--top {
+    top: auto;
+    right: auto;
+    width: auto;
+  }
+
+  .message__decoration--side {
+    top: auto;
+    right: auto;
+    width: auto;
+  }
+
+  .message__decoration--bottom {
+    bottom: auto;
+    left: auto;
+    width: auto;
+  }
+
+  /* WHY US */
+
+  .why-us {
+    --float-motion-scale: 1;
+    --why-us-row-offset: 2.5rem;
+    padding-block: 7.5rem;
+  }
+
+  .why-us__eyebrow {
+    margin-bottom: 2.5rem;
+  }
+
+  .why-us__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+    margin-top: 5rem;
+  }
+
+  .why-us__card {
+    padding: var(--space-5) var(--space-4);
+    padding-inline: var(--space-3);
+  }
+
+  .why-us__icon {
+    width: 6.25rem;
+  }
+
+  .why-us__card-title {
+    margin-top: var(--space-2);
+    font-size: 1.75rem;
+    line-height: 2.5rem;
+  }
+
+  .why-us__block--top {
+    top: 6.5%;
+    width: 13.8%;
+  }
+
+  .why-us__block--left {
+    top: 21%;
+    left: 2.4%;
+    width: 11.2%;
+    aspect-ratio: 170 / 150;
+  }
+
+  .why-us__block--center {
+    top: 57.5%;
+    left: 44%;
+    width: 7.9%;
+  }
+
+  .why-us__block--small {
+    top: 52%;
+    left: 55%;
+    width: 3.5%;
+  }
+
+  .why-us__block--right {
+    top: 69.5%;
+    bottom: auto;
+    right: 3.7%;
+    width: 10.8%;
+  }
+
+  .why-us__block--bottom {
+    bottom: 5.8%;
+    left: auto;
+    right: 1.4%;
+    width: 4.6%;
+  }
+
+  /* MISSION */
+
+  .mission__description {
+    margin-top: var(--space-3);
+  }
+
+  .mission {
+    --float-motion-scale: 1;
+    padding-block: var(--space-6);
+  }
+
+  .mission__inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-5);
+  }
+
+  .mission__content {
+    max-width: 33.5rem;
+  }
+
+  .mission__line-break {
+    display: inline;
+  }
+
+  .mission__button {
+    width: auto;
+    margin-top: var(--space-3);
+    padding-inline: 3.75rem;
+  }
+
+  .mission__media {
+    grid-row: auto;
+    width: auto;
+    max-width: none;
+    aspect-ratio: 656 / 520;
+    justify-self: auto;
+  }
+
+  .mission__image {
+    top: 10%;
+    left: 6.1%;
+    width: 84.98%;
+  }
+
+  .mission__block--top {
+    top: 0;
+    left: 14%;
+    width: 25%;
+  }
+
+  .mission__block--bottom {
+    top: 68.8%;
+    left: -2.7%;
+    width: 28.6%;
+    aspect-ratio: 188 / 164;
+  }
+
+  .mission__block--front {
+    top: 78.8%;
+    right: 0;
+    width: 16%;
+    aspect-ratio: 106 / 100;
+  }
+
+  .mission__decoration {
+    display: none;
+    z-index: auto;
+    left: auto;
+    bottom: auto;
+    width: auto;
+    aspect-ratio: auto;
+  }
+
+  /* JOBS */
+
+  .jobs {
+    --float-motion-scale: 1;
+    padding-block: 7.5rem 4rem;
+  }
+
+  .jobs__intro {
+    text-align: center;
+  }
+
+  .jobs__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+
+  .jobs__card {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-3);
+    padding: var(--space-3);
+  }
+
+  .jobs__image {
+    grid-column: 1;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    object-position: center 20%;
+  }
+
+  .jobs__content {
+    grid-row: 2;
+  }
+
+  .jobs__card-eyebrow {
+    margin-bottom: var(--space-2);
+  }
+
+  .jobs__button {
+    margin-top: auto;
+    align-self: flex-start;
+  }
+
+  .jobs__block--top {
+    top: 0;
+    left: 0;
+    right: auto;
+    width: 15.9%;
+    aspect-ratio: 240 / 212;
+  }
+
+  .jobs__block--side {
+    top: 24.7%;
+    bottom: auto;
+    right: 21.3%;
+    width: 6.8%;
+  }
+
+  .jobs__block--bottom {
+    bottom: 1.5rem;
+    left: 34.2%;
+    width: 5.5%;
+    aspect-ratio: 84 / 80;
+  }
+
+  .jobs__card-description {
+    margin-bottom: var(--space-4);
+  }
+
+  /* INTERVIEW */
+
+  .interview {
+    --float-motion-scale: 1;
+    padding-block: 6.5rem 4rem;
+  }
+
+  .interview__intro {
+    text-align: center;
+  }
+
+  .interview__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7.5rem clamp(3rem, 10.6vw, 10rem);
+    max-width: 72rem;
+  }
+
+  .interview__card {
+    width: auto;
+  }
+
+  .interview__card:nth-child(odd) {
+    justify-self: auto;
+  }
+
+  .interview__card--offset {
+    margin-top: 6rem;
+  }
+
+  .interview__content {
+    width: 78%;
+    min-height: 11rem;
+    margin: var(--space-2);
+    padding: 1.25rem;
+  }
+
+  .interview__card-title {
+    font-size: 1.25rem;
+    line-height: 2rem;
+  }
+
+  .interview__label {
+    font-size: 0.875rem;
+  }
+
+  .interview__link {
+    flex-basis: 2.25rem;
+    min-height: 2.25rem;
+  }
+
+  .interview__actions {
+    width: fit-content;
+    margin-top: 5rem;
+  }
+
+  .interview__button {
+    width: auto;
+    padding-inline: 3.75rem;
+  }
+
+  .interview__decoration--top {
+    top: 5%;
+    width: 7.7%;
+  }
+
+  .interview__decoration--edge {
+    bottom: 12.3%;
+    width: 7.7%;
+    aspect-ratio: 116 / 144;
+  }
+
+  .interview__block--front {
+    display: block;
+  }
+
+  .interview__block--back {
+    top: -13.5%;
+    left: -6.7%;
+    width: 28.5%;
+  }
+
+  .interview__block--small {
+    top: -16%;
+    right: -16%;
+  }
+
+  .interview__block--large {
+    top: -21%;
+    right: -12.5%;
+    width: 50%;
+  }
+
+  .interview__block--action {
+    top: -2.5rem;
+    left: -3.5rem;
+    width: 6.75rem;
+    aspect-ratio: 108 / 96;
+  }
+
+  /* CULTURE */
+
+  .culture {
+    --float-motion-scale: 1;
+    padding-block: 7.5rem 10rem;
+  }
+
+  .culture__inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-5);
+  }
+
+  .culture__line-break {
+    display: inline;
+  }
+
+  .culture__slider {
+    --culture-card-width: min(41rem, 82cqi);
+    --culture-card-gap: 1rem;
+    width: auto;
+  }
+
+  .culture__card {
+    grid-template-columns: 257fr 295fr;
+    gap: 2.75rem;
+    padding: 1.875rem;
+  }
+
+  .culture__image {
+    /* Gunakan kembali rasio dari atribut width/height gambar. */
+    aspect-ratio: revert-layer;
+    object-fit: fill;
+    object-position: 50% 50%;
+    transform: translateY(calc(0.5rem * (1 - var(--culture-photo))));
+  }
+
+  .culture__content {
+    padding-top: 2.25rem;
+  }
+
+  .culture__card-title {
+    opacity: 1;
+    transform: translate(
+        calc(var(--culture-preview-x) * (1 - var(--culture-reveal))),
+        calc(var(--culture-preview-y) * (1 - var(--culture-reveal)))
+      )
+      scale(calc(0.666666667 + 0.333333333 * var(--culture-reveal)));
+  }
+
+  .culture__link {
+    opacity: 1;
+    transform: translateX(
+      calc(var(--culture-preview-x) * (1 - var(--culture-reveal)))
+    );
+  }
+
+  .culture__next {
+    top: 16.25rem;
+    bottom: auto;
+    width: 5.375rem;
+    height: 5.375rem;
+  }
+
+  .culture__block--top {
+    top: 2.5rem;
+    right: 14%;
+    width: 3.625rem;
+  }
+
+  .culture__block--bottom {
+    bottom: 6.5rem;
+    left: max(
+      var(--page-gutter),
+      calc((100% - var(--container-max-width)) / 2 + 3.375rem)
+    );
+    width: 8.25rem;
+  }
+
+  /* SELECTION */
+
+  .selection,
+  .faq {
+    --float-motion-scale: 1;
+  }
+
+  .selection {
+    padding-block: 7.5rem;
+  }
+
+  .selection__intro {
+    text-align: center;
+  }
+
+  .selection__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+    margin: 5rem 0 0;
+  }
+
+  .selection__number {
+    font-size: 4.5rem;
+  }
+
+  .selection__card-title {
+    font-size: 1.5rem;
+  }
+
+  .selection__block--top {
+    top: 7.5rem;
+    right: 5%;
+    width: 6.75rem;
+  }
+
+  .selection__block--edge {
+    top: 36%;
+  }
+
+  .selection__block--side {
+    display: none;
+    top: auto;
+    right: auto;
+    width: auto;
+    aspect-ratio: auto;
+  }
+
+  .selection__block--bottom {
+    left: 64%;
+    width: 4.5rem;
+  }
+
+  .selection__step {
+    margin-bottom: 3.75rem;
+  }
+
+  /* FAQ */
+
+  .faq {
+    padding-block: 7.5rem;
+  }
+
+  .faq__inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: var(--space-5);
+  }
+
+  .faq__line-break {
+    display: inline;
+  }
+
+  .faq__question {
+    grid-template-columns: 2.75rem minmax(0, 1fr) 1.5rem;
+    gap: var(--space-2);
+  }
+
+  .faq__question-text {
+    font-size: 1.25rem;
+  }
+
+  .faq__number {
+    font-size: 0.75rem;
+  }
+
+  .faq__icon {
+    width: 1.5rem;
+  }
+
+  .faq__answer {
+    padding-inline: 3.75rem 2.5rem;
+  }
+
+  .faq__block--side {
+    top: 20%;
+    width: 10.25rem;
+  }
+
+  .faq__block--small {
+    top: 42%;
+    left: 31%;
+    width: 3.875rem;
+  }
+
+  .faq__block--bottom {
+    bottom: 2.75rem;
+    left: 6%;
+    width: 8rem;
+  }
+
+  /* JOIN OUR TEAM */
+
+  .join-team {
+    min-height: 36.75rem;
+    padding-block: 6rem;
+  }
+
+  .join-team__title {
+    font-size: var(--font-size-section-title);
+    line-height: var(--line-height-section-title);
+  }
+
+  .join-team__description {
+    font-size: inherit;
+  }
+
+  .join-team__button {
+    width: auto;
+    padding-inline: 3.75rem;
+  }
+
+  /* FOOTER */
+
+  .footer {
+    padding-block: 5rem var(--space-3);
+  }
+
+  .footer__content {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: 2.5rem;
+    margin-top: 4rem;
+  }
+
+  .footer__tagline {
+    font-size: clamp(2.5rem, 4.75vw, 4.5rem);
+    line-height: 1.05;
+  }
+
+  .footer__actions {
+    gap: var(--space-2);
+    width: 22rem;
+    margin-top: var(--space-4);
+  }
+
+  .footer__button {
+    padding-inline: 3.75rem;
+  }
+
+  .footer__list {
+    gap: var(--space-3);
+  }
+
+  .footer__link {
+    padding-block: 0;
+    border-bottom: 0;
+    font-size: inherit;
+  }
+
+  .footer__link-arrow {
+    display: none;
+  }
+
+  .footer__copyright {
+    margin-top: 6rem;
+    padding-top: var(--space-3);
+    border-top: 1px solid rgb(255 255 255 / 25%);
+  }
+}
+
+/* Tablet lebar — mulai 1101px */
+@media (min-width: 1101px) {
+  /* WHY US */
+
+  .why-us__list {
+    gap: 3.75rem;
+  }
+
+  .why-us__card {
+    padding-inline: var(--space-4);
+  }
+
+  /* INTERVIEW */
+
+  .interview__content {
+    width: 63.5%;
+    margin: 1.875rem;
+    min-height: 13.125rem;
+  }
+
+  .interview__card--offset {
+    margin-top: 9.375rem;
+  }
+}
+
+/* Desktop — mulai 1201px */
+@media (min-width: 1201px) {
+  /* Header dan Hero */
+
+  .hero {
+    --font-size-hero-title: 4rem;
+    --line-height-hero-title: 5.25rem;
+  }
+
+  .hero__inner {
+    gap: normal;
+  }
+
+  /* OUR MESSAGE */
+
+  .message__inner {
+    gap: normal;
+  }
+
+  .message__content {
+    width: 82%;
+  }
+
+  .message__line-break {
+    display: inline;
+  }
+
+  /* MISSION */
+
+  .mission__inner {
+    gap: normal;
+  }
+
+  /* JOBS */
+
+  .jobs__card {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 2.5rem;
+    padding: var(--space-4);
+  }
+
+  .jobs__image {
+    grid-column: 2;
+    /* Gunakan kembali rasio dari atribut width/height gambar. */
+    aspect-ratio: revert-layer;
+    object-fit: fill;
+    object-position: 50% 50%;
+  }
+
+  .jobs__content {
+    grid-row: 1;
+  }
+
+  .jobs__card-eyebrow {
+    margin-bottom: var(--space-4);
+  }
+
+  .jobs__button {
+    margin-top: var(--space-4);
+    align-self: auto;
+  }
+
+  .jobs__card-description {
+    margin-bottom: 0;
+  }
+
+  /* CULTURE */
+
+  .culture__inner {
+    grid-template-columns: minmax(0, 440fr) minmax(0, 832fr);
+    gap: 2.5rem;
+  }
+
+  .culture__slider {
+    --culture-card-width: 41rem;
+  }
+
+  /* SELECTION */
+
+  .selection__list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  /* FAQ */
+
+  .faq__inner {
+    gap: 6rem;
+    grid-template-columns: minmax(0, 360fr) minmax(0, 656fr);
+  }
+
+  /* FOOTER */
+
+  .footer__content {
+    grid-template-columns: minmax(0, 832fr) minmax(0, 440fr);
+  }
+}
+
+/* Hover link teks hanya untuk pointer yang mendukung hover. */
+@media (hover: hover) and (pointer: fine) {
+  .culture__next:hover {
+    transform: translateX(-50%) scale(1.15);
+  }
+
+  .message__link:hover {
+    padding-inline: var(--text-link-hover-padding)
+      var(--text-link-hover-padding-end);
+  }
+
+  .text-link:not(.message__link):hover .text-link__label {
+    padding-inline: var(--text-link-hover-padding);
+  }
+
+  .text-link--solid:hover {
+    color: var(--text-link-hover-color);
+  }
+
+  .text-link--solid:hover::before {
+    width: var(--text-link-hover-width);
+  }
+
+  .text-link:hover .text-link__label::before {
+    width: var(--text-link-hover-width);
+  }
+}
+
+/* Aksesibilitas — reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .culture__next,
+  .culture__next:hover,
+  .culture__next:focus-visible {
+    transform: translateX(-50%);
+    transition: none;
+  }
+
+  .arrow-motion__glyph {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .message__link,
+  .text-link__label,
+  .text-link__label::before,
+  .text-link--solid,
+  .text-link--solid::before {
+    transition: none;
+  }
+
+  .button-effect::before,
+  .join-team__button,
+  .footer__button.button--light {
+    transition: none;
+  }
+
+  .button-effects {
+    display: none;
+  }
+
+  .button-particles__block {
+    animation: none !important;
+  }
+
+  /* Ornamen — parameter bersama */
+  .floating-block {
+    animation: none;
+    transform: none;
+    translate: none;
+  }
+
+  /* Batch 8 — CULTURE: slider natif dengan kontrol vanilla JavaScript. */
+  .culture__viewport {
+    scroll-behavior: auto;
+  }
+  .culture__image {
+    transform: none;
+  }
+}
